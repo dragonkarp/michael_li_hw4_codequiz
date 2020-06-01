@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
-
 </head>
 
 <body>
@@ -19,16 +18,28 @@
         <section>
             <nav class="navbar navbar-light bg-light">
                 <span class="navbar-brand mb-0 h1">Take the JS quiz!</span>
-                <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                <button type="button" class="btn btn-secondary btn-sm">High Scores</button>
             </nav>
         </section>
     </header>
 
     <main>
+        <section class="container">
+            <div class="jumbotron jumbotron-fluid" id="main-content"></div>
+                <!-- main content goes here. populated by JS-->
 
+            </div>
+         </section>
+        
+        <section>
+            <div class="container"> 
+                <p id="answer-feedback">correct</p>
+                <p id="timer">33</p>
+            </div>
+        </section>
     </main>
     
-    <footer class="footer" id="customer-footer-style">
+    <footer class="footer" id="custom-footer-style">
         <div class="container">
             <span class="text-muted">Michael Li made this. There are many like it, but this one is his. </span>
         </div>
@@ -38,3 +49,19 @@
 </body>
 
 </html>
+
+
+
+
+<!-- 
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container" id="quiz-content">
+        <h1 class="display-4" id="question">Question</h1>
+        <div id="answers"></div>
+    </div>
+</div>
+
+
+
+ -->
