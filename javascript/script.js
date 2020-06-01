@@ -27,8 +27,8 @@ const questionBank = {
 
 //generateIntroContent();
 //generateQuesAnsContent();
-var x = 10;
-function offerHighScoreEntry(x)
+// var x = 10;
+// function offerHighScore(x);
 
 //fills content box with introduction
 // function generateIntroContent () {
@@ -52,10 +52,21 @@ function offerHighScoreEntry(x)
 //     //need logic that deletes the box and moves to first question 
 // }
 
+// function generateQuesAnsContent () {
+//     var question = document.createElement("h3");
+//     var answer = document.createElement("button")
+//     var correctAns;
+
+//     for (var i in questionBank) {
+//         question.textContent = i.question;
+//         console.log(question);
+//     }
+
+// }
+
 
 //offer to enter name for the high score board
-//
-function offerHighScoreEntry(finalScore) {
+function offerHighScore(finalScore) {
     var finishedNotification = document.createElement("h5");
     var displayFinalScore = document.createElement("p");
     var nameInputForm = document.createElement("form");
@@ -77,68 +88,8 @@ function offerHighScoreEntry(finalScore) {
 
 //final score board
 //user does not interact with it
-function scoreBoard () {
-    var scoreBoardTitle = document.createElement("h3");
-    var listOfScores = document.createElement("ul");
-    var highScoreName = document.createElement("li");
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function generateQuesAnsContent () {
-//     var question = document.createElement("h3");
-//     var answer = document.createElement("button")
-//     var correctAns;
-
-//     for (var i in questionBank) {
-//         question.textContent = i.question;
-//         console.log(question);
-//     }
-
+// function scoreBoard () {
+//     var scoreBoardTitle = document.createElement("h3");
+//     var listOfScores = document.createElement("ul");
+//     var highScoreName = document.createElement("li");
 // }
-
-
-/* 
-
-function startTimer () {
-    var timerInterval = setInterval(function() {
-        secondsLeft--;
-        timer.textContent = secondsLeft;
-    }, 1000)
-
-    if (secondsLeft === 0) {
-        clearInterval(timerInterval);
-        next();
-    }
-
-}
-function setTime() {
-    var timerInterval = setInterval(function() {
-      secondsLeft--;
-      timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
-  
-      if(secondsLeft === 0) {
-        clearInterval(timerInterval);
-        sendMessage();
-      }
-  
-    }, 1000);
-  }
-
-
-
-*/
