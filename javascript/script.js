@@ -10,9 +10,9 @@ var totalScore = 0;
 var scoresBoardList = [ {name: "Mike",
                         score: 10},
                         {name: "Vicky",
-                        score: 12}, 
-                        {name: "Jess",
-                        score: 15}];
+                        score: 12}//, 
+                        /* {name: "Jess",
+                        score: 15} */];
 var setIntervalID;
 
 
@@ -175,6 +175,7 @@ function offerHighScore(totalScore) {
     // Handle the input
     nameInputField.setAttribute("class", "nameInput");
     var playerName = nameInputField.getElementsByClassName("nameInput").value;
+    console.log(playerName);
 
     submitNameButton.addEventListener("click", function(event){
         event.preventDefault();
@@ -188,6 +189,7 @@ function offerHighScore(totalScore) {
 // Final score board.
 // User does not interact with it.
 function scoreBoard () {
+    clearInterval(setIntervalID);
     clearContent();
     var scoreBoardTitle = document.createElement("h3");
     var listOfScores = document.createElement("ol");
@@ -200,17 +202,17 @@ function scoreBoard () {
     mainContentBox.appendChild(listOfScores);
 
     for (var i = 0; i < scoresBoardList.length; i++) {
-        // scoresBoardList[i].name;
-        // scoresBoardList[i].score;
-         console.log(scoresBoardList[i].name);
-         console.log(scoresBoardList[i].score);
-         console.log(i);
+        console.log(i +"th loop begins");
+        console.log(scoresBoardList[i].name);
+        console.log(scoresBoardList[i].score);
+        console.log(i);
 
-        p.textContent = (i+1) + ". " + scoresBoardList[i].name + ": " + scoresBoardList[i].score;
         listOfScores.appendChild(li);
         li.appendChild(p);
+        p.textContent = (i+1) + ". " + scoresBoardList[i].name + ": " + scoresBoardList[i].score;
+        
 
-        console.log("test");
+        console.log(i +"th loop is done");
     }
 
     // Close button. Restarts program.
@@ -235,6 +237,8 @@ function startTimer() {
     if(secondsLeft === 0) {
       clearInterval(setIntervalID);
       timer.textContent = " ";
+      answerFeedbackEl.textContent = "";
+      offerHighScore();
     }
 
   }, 1000);
@@ -357,3 +361,10 @@ call back function{
 @? = created, but has bugs
 @* = implemented, no syntax errors, have not run functional test yet
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+
+//list of bugs
+//1) null value for name input. cannot capture input
+//2) feedback does not disappear after 2 seconds.
+//3) scores list only populates list with last person in the array
+//4) sometimes if you start the quiz again, the timer isn't reset. 
