@@ -7,37 +7,21 @@ var scoreBoardButtonTopRight = document.querySelector("#top-right-sb-button");
 // Global variables.
 var secondsLeft = 60;
 var totalScore = 0;
-var scoresBoardList = {"name1": 1, "name2": 2, "name3": 3};
+var scoresBoardList = [ {name: "Mike",
+                        score: 10},
+                        {name: "Vicky",
+                        score: 12}, 
+                        {name: "Jess",
+                        score: 15}];
 var setIntervalID;
-//question and answers bank test object. will implement actual content later.
-//how do you traverse this? 
-// const questionBank = {
-//     "question1": {
-//         "question": "Question 1",
-//         "answers": [
-//             'Q1, A1',
-//             'Q1, A2',
-//             'Q1, A3',
-//             'Q1, A4'],
-//         "correctAns": 1 
-//     },
-//     "question2": {
-//         "question": "Question 2",
-//         "answers": [
-//             'Q2, A1',
-//             'Q2, A2',
-//             'Q2, A3',
-//             'Q2, A4'],
-//         "correctAns": 4
-//     }
-// };
+
 
 // test area ++++++
 
-generateIntroContent();
+//generateIntroContent();
 //generateQuesAnsContent();
 //offerHighScore();
-//scoreBoard();
+scoreBoard();
 //startTimer();
 //decreaseTimer();
 //feedback (true);
@@ -66,6 +50,7 @@ function generateIntroContent () {
 
     introButton.addEventListener("click", function() {
     event.preventDefault()
+        index = 0;
         clearContent();
         startTimer();
         //generateQuesAnsContent();
@@ -95,15 +80,40 @@ const questionBank = [
             '2. int',
             '3. float',
             '4. string'],
-        correctAns: 'A1'
-    }
+        correctAns: '1. bool'
+    },
+    {
+        question: "Are semi colons required to end lines with in JS?",
+        answers: [
+            '1. YES',
+            '2. NO',
+            '3. SOMETIMES'],
+        correctAns: '2. NO'
+    },
+    {
+        question: "When does a while loop stop executing?",
+        answers: [
+            '1. When an if statement is executed.',
+            '2. When another while loop is executed.',
+            '3. When the user presses escape.',
+            '4. When the condition is met.'],
+        correctAns: '4. When the condition is met.'
+    },
+    {
+        question: "True, or false: javascript types are explicitly declared.",
+        answers: [
+            '1. True',
+            '2. False'],
+        correctAns: '2. False'
+    },
 ];
 
 ////
 function generateQuesAnsContent () {
+    console.log("total score: " + totalScore);
     var question = document.createElement("h3");
     var ulOfAnswers = document.createElement("ul");
-    console.log("index", index);
+    //console.log("index", index);
     mainContentBox.textContent = "";
         
     question.textContent = questionBank[index].question;
@@ -116,6 +126,7 @@ function generateQuesAnsContent () {
         answerButton.addEventListener("click", function(){
             
             if (this.textContent === questionBank[index].correctAns) {
+                totalScore++;
                 feedback(true); 
             } else {
                 feedback(false); 
@@ -123,7 +134,12 @@ function generateQuesAnsContent () {
 
             if (index === questionBank.length-1) { // review this
                 clearInterval(setIntervalID);
+                timer.textContent = "";
+                answerFeedbackEl.textContent = "";
+                clearContent();
+                offerHighScore(totalScore);
             } else {
+                answerFeedbackEl.textContent = "";
                 index++;
             }
         });
@@ -131,38 +147,12 @@ function generateQuesAnsContent () {
         ulOfAnswers.appendChild(liAnswerItem);
         mainContentBox.appendChild(ulOfAnswers);
     }
-
-
-
-
-    // // Loop through questionBank.
-    // for (var i in questionBank) {
-    //     mainContentBox.appendChild(question);
-    //     mainContentBox.appendChild(ulOfAnswers);
-    //     question.textContent = questionBank[i].question;
-    //     ulOfAnswers.appendChild(liAnswerItem);
-
-    //     // Loop through the value of each item in questionBank.
-    //     // Each item has the question, list of answers, and the correct answer.
-    //     for (var j in questionBank.i.answers) {
-    //         ulOfAnswers.appendChild(liAnswerItem);
-    //         liAnswerItem.appendChild(answerButton);
-    //         answerButton.textContent = j;
-
-    //         answerButton.addEventListener("click", function(){
-    //             // answerButton.
-    //             // if (questionBank.i.correctAns === ) {
-
-    //             // }
-    //         });
-    //     }
-    // }
-
 }
 
 
 // Offer to enter name for the high score board
 function offerHighScore(totalScore) {
+    answerFeedbackEl.textContent = " ";
     var finishedNotification = document.createElement("h5");
     var displayTotalScore = document.createElement("p");
     var nameInputForm = document.createElement("form");
@@ -186,38 +176,49 @@ function offerHighScore(totalScore) {
     nameInputField.setAttribute("class", "nameInput");
     var playerName = nameInputField.getElementsByClassName("nameInput").value;
 
-    submitNameButton.addEventListener("click", function(){
+    submitNameButton.addEventListener("click", function(event){
         event.preventDefault();
-        topTenScores[playerName] = totalScore;
+        scoresBoardList[playerName] = totalScore;
+        totalScore = 0;
         clearContent();
+        scoreBoard();
     });
 } 
-
 
 // Final score board.
 // User does not interact with it.
 function scoreBoard () {
+    clearContent();
     var scoreBoardTitle = document.createElement("h3");
     var listOfScores = document.createElement("ol");
     var li = document.createElement("li");
-    var nameAndScoreText = document.createElement("p");
+    var p = document.createElement("p");
     var closeButton = document.createElement("button");
 
     mainContentBox.appendChild(scoreBoardTitle);
-    scoreBoardTitle.textContent = "Scores"
+    scoreBoardTitle.textContent = "Scores";
     mainContentBox.appendChild(listOfScores);
 
-    for (var i in scoresBoardList) {
+    for (var i = 0; i < scoresBoardList.length; i++) {
+        // scoresBoardList[i].name;
+        // scoresBoardList[i].score;
+         console.log(scoresBoardList[i].name);
+         console.log(scoresBoardList[i].score);
+         console.log(i);
+
+        p.textContent = (i+1) + ". " + scoresBoardList[i].name + ": " + scoresBoardList[i].score;
         listOfScores.appendChild(li);
-        li.appendChild(nameAndScoreText);
-        nameAndScoreText.textContent = scoresBoardList.i + ": " + scoresBoardList[i];
+        li.appendChild(p);
+
+        console.log("test");
     }
 
+    // Close button. Restarts program.
+    closeButton.textContent = "Close"
     mainContentBox.appendChild(closeButton);
     closeButton.addEventListener("click", function(){
-        event.preventDefault();
         clearContent();
-        main();
+        generateIntroContent();
     });
 
 }
@@ -240,7 +241,7 @@ function startTimer() {
 }
 
 function decreaseTimer(){
-    secondsLeft -= 5;
+    secondsLeft -= 10;
 }
 
 // Called by Q&A function
@@ -249,10 +250,8 @@ function feedback (bool) {
     if (bool) {
         setTimeout(function(){ answerFeedbackEl.textContent = "Correct!"; }, 2000);
     } else {
-
         decreaseTimer();
         setTimeout(function(){ answerFeedbackEl.textContent = "Wrong!"; }, 2000);
-       
     }
     startTimer();
 }
