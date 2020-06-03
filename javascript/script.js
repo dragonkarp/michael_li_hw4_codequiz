@@ -1,52 +1,52 @@
-// Selectors
+// Selectors.
 var answerFeedbackEl = document.querySelector("#answer-feedback");
 var timer = document.querySelector("#timer");
 var mainContentBox = document.querySelector("#main-content");
 var scoreBoardButtonTopRight = document.querySelector("#top-right-sb-button");
 
-// Global variables
+// Global variables.
 var secondsLeft = 60;
 var totalScore = 0;
 var scoresBoardList = {"name1": 1, "name2": 2, "name3": 3};
-
-//question and answers bank
+var setIntervalID;
+//question and answers bank test object. will implement actual content later.
 //how do you traverse this? 
-const questionBank = {
-    "question1": {
-        "question": "Question 1",
-        "answers": [
-            'Q1, A1',
-            'Q1, A2',
-            'Q1, A3',
-            'Q1, A4'],
-        "correctAns": 1 
-    },
-    "question2": {
-        "question": "Question 2",
-        "answers": [
-            'Q2, A1',
-            'Q2, A2',
-            'Q2, A3',
-            'Q2, A4'],
-        "correctAns": 4
-    }
-};
+// const questionBank = {
+//     "question1": {
+//         "question": "Question 1",
+//         "answers": [
+//             'Q1, A1',
+//             'Q1, A2',
+//             'Q1, A3',
+//             'Q1, A4'],
+//         "correctAns": 1 
+//     },
+//     "question2": {
+//         "question": "Question 2",
+//         "answers": [
+//             'Q2, A1',
+//             'Q2, A2',
+//             'Q2, A3',
+//             'Q2, A4'],
+//         "correctAns": 4
+//     }
+// };
 
 // test area ++++++
-//generateIntroContent();
+
+generateIntroContent();
 //generateQuesAnsContent();
 //offerHighScore();
 //scoreBoard();
+//startTimer();
+//decreaseTimer();
+//feedback (true);
+//feedback (false);
+//clearContent();
+
 // test area ++++++
 
-
-function main () {
-    return;
-}
-
-// Fills content box with introduction
-// Has an event listener: 
-//      Calls generateQuesAnsContent();
+// Fills content box with introduction.
 function generateIntroContent () {
     var introStatement = document.createElement("h1");
     var introRules = document.createElement("p");
@@ -67,6 +67,8 @@ function generateIntroContent () {
     introButton.addEventListener("click", function() {
     event.preventDefault()
         clearContent();
+        startTimer();
+        //generateQuesAnsContent();
     });
 }
 
@@ -74,22 +76,92 @@ function generateIntroContent () {
 function clearContent() {
     mainContentBox.querySelectorAll('*').forEach(n => n.remove());
 }
+let index = 0;
+/////
+const questionBank = [
+    {
+        question: "How do you create an array?",
+        answers: [
+            '1. var = []',
+            '2. var = {}',
+            '3. array = ()',
+            '4. start array[]'],
+        correctAns: '1. var = []'
+    },
+    {
+        question: "What datatype does an if statement take?",
+        answers: [
+            '1. bool',
+            '2. int',
+            '3. float',
+            '4. string'],
+        correctAns: 'A1'
+    }
+];
 
+////
 function generateQuesAnsContent () {
     var question = document.createElement("h3");
-    var answer = document.createElement("button")
-    var correctAns;
+    var ulOfAnswers = document.createElement("ul");
+    console.log("index", index);
+    mainContentBox.textContent = "";
+        
+    question.textContent = questionBank[index].question;
+    mainContentBox.appendChild(question);
+    const choices = questionBank[index].answers;
+    for (var i = 0; i < choices.length; i++) {
+        var liAnswerItem = document.createElement("li");
+        var answerButton = document.createElement("button");
+        answerButton.textContent = choices[i];
+        answerButton.addEventListener("click", function(){
+            
+            if (this.textContent === questionBank[index].correctAns) {
+                feedback(true); 
+            } else {
+                feedback(false); 
+            }
 
-    for (var i in questionBank) {
-        question.textContent = i.question;
-        console.log(question);
+            if (index === questionBank.length-1) { // review this
+                clearInterval(setIntervalID);
+            } else {
+                index++;
+            }
+        });
+        liAnswerItem.appendChild(answerButton);
+        ulOfAnswers.appendChild(liAnswerItem);
+        mainContentBox.appendChild(ulOfAnswers);
     }
+
+
+
+
+    // // Loop through questionBank.
+    // for (var i in questionBank) {
+    //     mainContentBox.appendChild(question);
+    //     mainContentBox.appendChild(ulOfAnswers);
+    //     question.textContent = questionBank[i].question;
+    //     ulOfAnswers.appendChild(liAnswerItem);
+
+    //     // Loop through the value of each item in questionBank.
+    //     // Each item has the question, list of answers, and the correct answer.
+    //     for (var j in questionBank.i.answers) {
+    //         ulOfAnswers.appendChild(liAnswerItem);
+    //         liAnswerItem.appendChild(answerButton);
+    //         answerButton.textContent = j;
+
+    //         answerButton.addEventListener("click", function(){
+    //             // answerButton.
+    //             // if (questionBank.i.correctAns === ) {
+
+    //             // }
+    //         });
+    //     }
+    // }
 
 }
 
 
-//offer to enter name for the high score board
-//why does this give a token/syntax error??
+// Offer to enter name for the high score board
 function offerHighScore(totalScore) {
     var finishedNotification = document.createElement("h5");
     var displayTotalScore = document.createElement("p");
@@ -154,12 +226,13 @@ function scoreBoard () {
 // Timer count down
 // Basic functionality. Functional. 
 function startTimer() {
-  var timerInterval = setInterval(function() {
+    setIntervalID = setInterval(function() {
     secondsLeft--;
     timer.textContent = secondsLeft;
+    generateQuesAnsContent();
 
     if(secondsLeft === 0) {
-      clearInterval(timerInterval);
+      clearInterval(setIntervalID);
       timer.textContent = " ";
     }
 
@@ -172,16 +245,20 @@ function decreaseTimer(){
 
 // Called by Q&A function
 function feedback (bool) {
+    clearInterval(setIntervalID);
     if (bool) {
         setTimeout(function(){ answerFeedbackEl.textContent = "Correct!"; }, 2000);
     } else {
-        setTimeout(function(){ answerFeedbackEl.textContent = "Wrong!"; }, 2000);
+
         decreaseTimer();
+        setTimeout(function(){ answerFeedbackEl.textContent = "Wrong!"; }, 2000);
+       
     }
+    startTimer();
 }
 
-//global event listeners
-scoreBoardButtonTopRight.addEventListener("click", scoreBoard());
+// Global event listeners
+scoreBoardButtonTopRight.addEventListener("click", scoreBoard);
 
 
 /* Strategy ++++++++++++++++++++++++++++++++++++++++++++++++++
